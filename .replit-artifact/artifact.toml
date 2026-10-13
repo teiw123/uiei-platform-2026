@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "UIEI Platform MVP"
+description = "A single-page global invoice registry MVP for registering invoices, generating UIEI invoice numbers, viewing the invoice registry, and verifying invoice records."
+version = "1.0.0"
+id = "artifacts/uiei-platform"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19365
+
+[services.development]
+run = "pnpm --filter @workspace/uiei-platform run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/uiei-platform", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/uiei-platform/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19365"
+BASE_PATH = "/"
